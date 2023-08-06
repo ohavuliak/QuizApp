@@ -24,6 +24,6 @@ public class QuizController {
 
     @GetMapping("/{id}")
     public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(@PathVariable Long id){
-        return new ResponseEntity<>(quizService.getQuizQuestions(id), HttpStatus.OK);
+        return ResponseEntity.ok(quizService.getQuizQuestions(id));
     }
 }

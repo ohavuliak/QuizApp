@@ -1,6 +1,7 @@
 package com.example.quizapp.service;
 
-import com.example.quizapp.exception.QuizNotFoundException;
+import com.example.quizapp.exception.MessageCode;
+import com.example.quizapp.exception.NotFoundException;
 import com.example.quizapp.model.*;
 import com.example.quizapp.repository.QuestionRepository;
 import com.example.quizapp.repository.QuizRepository;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 
 @Service
@@ -33,9 +34,9 @@ public class QuizService {
 
 
     public List<QuestionWrapper> getQuizQuestions(Long id) {
-        Optional<Quiz> quiz = Optional.ofNullable(quizRepository.findById(id)
-                .orElseThrow(() -> new QuizNotFoundException("Quiz with ID " + id + " not found.")));
-        List<Question> questionsFromDB = quiz.get().getQuestions();
+        Quiz quiz = quizRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(MessageCode.NOT_FOUND_QUIZ));
+        List<Question> questionsFromDB = quiz.getQuestions();
         List<QuestionWrapper> questionsForUser = new ArrayList<>();
         for(Question q: questionsFromDB){
             QuestionWrapper qw = new QuestionWrapper(q.getId(), q.getQuestionTitle(), q.getOption1(), q.getOption2(), q.getOption3(), q.getOption4());

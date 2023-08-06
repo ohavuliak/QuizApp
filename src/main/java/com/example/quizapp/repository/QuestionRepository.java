@@ -12,9 +12,11 @@ import java.util.List;
 
 
 @Repository
-public interface QuestionRepository extends JpaRepository<Question, Integer> {
+public interface QuestionRepository extends JpaRepository<Question, Long> {
     List<Question> findByCategory(String category);
     @Query(value = "SELECT * from question q WHERE q.category=:category ORDER BY Random() LIMIT :numQ", nativeQuery = true)
     List<Question> findRandomQuestionsByCategory(String category, Integer numQ);
 
+    @Query(value = "SELECT p from Question p")
+    Page<Question> getQuestions(final Pageable pageable);
 }
