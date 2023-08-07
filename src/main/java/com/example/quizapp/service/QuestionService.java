@@ -1,27 +1,31 @@
 package com.example.quizapp.service;
 
+
+import com.example.quizapp.dto.QuestionDTO;
 import com.example.quizapp.exception.MessageCode;
 import com.example.quizapp.exception.NotFoundException;
+
+import com.example.quizapp.mapper.QuestionMapper;
 import com.example.quizapp.model.Question;
 import com.example.quizapp.model.Quiz;
 import com.example.quizapp.repository.QuestionRepository;
 import com.example.quizapp.repository.QuizRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @Service
+@RequiredArgsConstructor
 public class QuestionService {
-    @Autowired
-    QuestionRepository questionRepository;
-    @Autowired
-    QuizRepository quizRepository;
+
+    private final QuestionRepository questionRepository;
+    private final QuizRepository quizRepository;
+    private final QuestionMapper questionMapper;
+
 
     public List<Question> getAllQuestions() {
         return questionRepository.findAll();
@@ -74,15 +78,14 @@ public class QuestionService {
         return userOption.equals(question.getRightAnswer());
     }
 
-    public Map<String, Object> getPageableQuestions(final Integer pageNumber, Integer size) {
-        return convertToResponse(questionRepository.getQuestions(PageRequest.of(pageNumber, size)));
+    public Page<Question> getCategoryPageable(String category, Pageable pageable) {
+        return category == null ? questionRepository.findAll(pageable) : questionRepository.findByCategory(category, pageable);
     }
-    private Map<String, Object> convertToResponse(final Page<Question> questions) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("questions", questions.getContent());
-        response.put("current-page", questions.getNumber());
-        response.put("total-items", questions.getTotalElements());
-        response.put("total-pages", questions.getTotalPages());
-        return response;
+
+    public QuestionDTO getQuestionById(Long id) {
+        Question question = questionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(MessageCode.NOT_FOUND_QUESTION));
+        QuestionDTO questionDTO = questionMapper.questionToQuestionDTO(question);
+        return questionDTO;
     }
 }

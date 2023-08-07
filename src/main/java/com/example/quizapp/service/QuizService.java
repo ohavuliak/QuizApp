@@ -1,24 +1,27 @@
 package com.example.quizapp.service;
 
+import com.example.quizapp.dto.QuizDTO;
 import com.example.quizapp.exception.MessageCode;
 import com.example.quizapp.exception.NotFoundException;
+import com.example.quizapp.mapper.QuizMapper;
 import com.example.quizapp.model.*;
 import com.example.quizapp.repository.QuestionRepository;
 import com.example.quizapp.repository.QuizRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 
 @Service
+@RequiredArgsConstructor
 public class QuizService {
-    @Autowired
-    QuizRepository quizRepository;
-    @Autowired
-    QuestionRepository questionRepository;
+
+    private final QuizRepository quizRepository;
+    private final QuestionRepository questionRepository;
+    private final QuizMapper quizMapper;
 
     public String createQuiz(QuizRequest request) {
         List<Question> questions = questionRepository
@@ -43,5 +46,13 @@ public class QuizService {
             questionsForUser.add(qw);
         }
         return questionsForUser;
+    }
+
+    public List<QuizDTO> getAllQuizzes() {
+        List<Quiz> quizzes = quizRepository.findAll();
+        List<QuizDTO> quizDTOS = quizzes.stream()
+                .map(quiz -> quizMapper.quizToQuizDTO(quiz))
+                .collect(Collectors.toList());
+        return quizDTOS;
     }
 }

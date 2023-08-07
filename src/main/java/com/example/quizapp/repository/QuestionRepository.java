@@ -1,7 +1,6 @@
 package com.example.quizapp.repository;
 
 import com.example.quizapp.model.Question;
-import com.example.quizapp.model.Quiz;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,6 +16,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query(value = "SELECT * from question q WHERE q.category=:category ORDER BY Random() LIMIT :numQ", nativeQuery = true)
     List<Question> findRandomQuestionsByCategory(String category, Integer numQ);
 
-    @Query(value = "SELECT p from Question p")
-    Page<Question> getQuestions(final Pageable pageable);
+    Page<Question> findByCategory(String category, Pageable pageable);
+
 }

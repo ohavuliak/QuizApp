@@ -12,4 +12,5 @@ public enum MessageCode {
     MessageCode(String message) {
         this.message = message;
     }
+
 }

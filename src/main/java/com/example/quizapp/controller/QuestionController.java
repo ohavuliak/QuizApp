@@ -1,14 +1,15 @@
 package com.example.quizapp.controller;
 
+import com.example.quizapp.dto.QuestionDTO;
 import com.example.quizapp.model.Question;
 import com.example.quizapp.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("question")
@@ -46,8 +47,14 @@ public class QuestionController {
     public ResponseEntity<Boolean> checkAnswer(@PathVariable Long id, @PathVariable Integer option){
         return ResponseEntity.ok(questionService.checkAnswer(id, option));
     }
-    @GetMapping(value = "pageable")
-    public ResponseEntity<Map<String, Object>> getQuestionsPageable(@RequestParam(defaultValue = "0") final Integer pageNumber, @RequestParam(defaultValue = "5") final Integer size){
-        return ResponseEntity.ok(questionService.getPageableQuestions(pageNumber, size));
+
+    @GetMapping(value = "/pageable")
+    public ResponseEntity<Page<Question>> getCategoryPageable(@RequestParam(required = false) String category, Pageable pageable){
+        return ResponseEntity.ok(questionService.getCategoryPageable(category, pageable));
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<QuestionDTO> getQuestionById(@PathVariable Long id){
+        return ResponseEntity.ok(questionService.getQuestionById(id));
     }
 }

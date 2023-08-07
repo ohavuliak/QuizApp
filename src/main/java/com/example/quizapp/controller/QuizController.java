@@ -1,6 +1,8 @@
 package com.example.quizapp.controller;
 
+import com.example.quizapp.dto.QuizDTO;
 import com.example.quizapp.model.QuestionWrapper;
+import com.example.quizapp.model.Quiz;
 import com.example.quizapp.model.QuizRequest;
 import com.example.quizapp.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +27,9 @@ public class QuizController {
     @GetMapping("/{id}")
     public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(@PathVariable Long id){
         return ResponseEntity.ok(quizService.getQuizQuestions(id));
+    }
+    @GetMapping("")
+    public ResponseEntity<List<QuizDTO>> getAllQuizzes(){
+        return ResponseEntity.ok(quizService.getAllQuizzes());
     }
 }
