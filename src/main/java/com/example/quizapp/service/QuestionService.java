@@ -24,7 +24,6 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final QuizRepository quizRepository;
-    private final QuestionMapper questionMapper;
 
 
     public List<Question> getAllQuestions() {
@@ -82,10 +81,8 @@ public class QuestionService {
         return category == null ? questionRepository.findAll(pageable) : questionRepository.findByCategory(category, pageable);
     }
 
-    public QuestionDTO getQuestionById(Long id) {
-        Question question = questionRepository.findById(id)
+    public Question getQuestionById(Long id) {
+        return questionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(MessageCode.NOT_FOUND_QUESTION));
-        QuestionDTO questionDTO = questionMapper.questionToQuestionDTO(question);
-        return questionDTO;
     }
 }

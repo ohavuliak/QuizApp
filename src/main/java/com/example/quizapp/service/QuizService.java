@@ -21,7 +21,6 @@ public class QuizService {
 
     private final QuizRepository quizRepository;
     private final QuestionRepository questionRepository;
-    private final QuizMapper quizMapper;
 
     public String createQuiz(QuizRequest request) {
         List<Question> questions = questionRepository
@@ -48,11 +47,7 @@ public class QuizService {
         return questionsForUser;
     }
 
-    public List<QuizDTO> getAllQuizzes() {
-        List<Quiz> quizzes = quizRepository.findAll();
-        List<QuizDTO> quizDTOS = quizzes.stream()
-                .map(quiz -> quizMapper.quizToQuizDTO(quiz))
-                .collect(Collectors.toList());
-        return quizDTOS;
+    public List<Quiz> getAllQuizzes() {
+        return quizRepository.findAll();
     }
 }
