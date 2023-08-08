@@ -1,17 +1,15 @@
-package com.example.quizapp.model;
+package com.example.quizapp.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
-@Entity
-@Data
-public class Question {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Getter
+@Setter
+public class QuestionDTO {
     private Long id;
     private String questionTitle;
     private String option1;
