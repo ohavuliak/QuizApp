@@ -1,4 +1,4 @@
-package com.example.quizapp.model;
+package com.example.quizapp.dao.request;
 
 import jakarta.persistence.Entity;
 import lombok.Data;

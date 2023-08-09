@@ -1,10 +1,9 @@
 package com.example.quizapp.service;
 
-import com.example.quizapp.dto.QuizDTO;
 import com.example.quizapp.exception.MessageCode;
 import com.example.quizapp.exception.NotFoundException;
-import com.example.quizapp.mapper.QuizMapper;
 import com.example.quizapp.model.*;
+import com.example.quizapp.dao.request.QuizRequest;
 import com.example.quizapp.repository.QuestionRepository;
 import com.example.quizapp.repository.QuizRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
