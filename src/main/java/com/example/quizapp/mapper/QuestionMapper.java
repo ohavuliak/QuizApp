@@ -8,8 +8,5 @@ import org.mapstruct.Mapper;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface QuestionMapper {
-    QuestionDTO  questionToQuestionDTO(Question question);
-    Question questionDTOtoQuestion(QuestionDTO questionDTO);
-
+public interface QuestionMapper extends EntityMapper<Question, QuestionDTO>{
 }
