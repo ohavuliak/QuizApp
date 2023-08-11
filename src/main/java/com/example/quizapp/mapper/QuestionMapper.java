@@ -9,4 +9,5 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface QuestionMapper extends EntityMapper<Question, QuestionDTO>{
+
 }
