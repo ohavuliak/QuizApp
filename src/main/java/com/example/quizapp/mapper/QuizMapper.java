@@ -4,9 +4,8 @@ import com.example.quizapp.dto.QuizDTO;
 import com.example.quizapp.model.Quiz;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
-public interface QuizMapper {
-    QuizDTO quizToQuizDTO(Quiz quiz);
-    Quiz quizDTOtoQuiz(QuizDTO quizDTO);
+import java.util.List;
 
+@Mapper(componentModel = "spring")
+public interface QuizMapper extends  EntityMapper<Quiz, QuizDTO> {
 }

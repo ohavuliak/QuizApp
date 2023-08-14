@@ -24,6 +24,7 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final QuizRepository quizRepository;
+    private final QuestionMapper questionMapper;
 
 
     public List<Question> getAllQuestions() {
@@ -49,17 +50,8 @@ public class QuestionService {
     public String updateQuestion(Question question, Long id) {
         Question existingQuestion = questionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(MessageCode.NOT_FOUND_QUESTION));
-        existingQuestion.setQuestionTitle(question.getQuestionTitle());
-        existingQuestion.setCategory(question.getCategory());
-        existingQuestion.setDifficultylevel(question.getDifficultylevel());
-        existingQuestion.setOption1(question.getOption1());
-        existingQuestion.setOption2(question.getOption2());
-        existingQuestion.setOption3(question.getOption3());
-        existingQuestion.setOption4(question.getOption4());
-        existingQuestion.setRightAnswer(question.getRightAnswer());
-
+        questionMapper.updateEntity(existingQuestion, question);
         questionRepository.save(existingQuestion);
-
         return "Question was successfully updated";
     }
 
