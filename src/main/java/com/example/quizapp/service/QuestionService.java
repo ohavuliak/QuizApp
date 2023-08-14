@@ -27,13 +27,10 @@ public class QuestionService {
     private final QuestionMapper questionMapper;
 
 
-    public List<Question> getAllQuestions() {
-        return questionRepository.findAll();
+    public List<Question> getAllQuestions(String category) {
+        return category==null? questionRepository.findAll(): questionRepository.findByCategory(category);
     }
 
-    public List<Question> getQuestionsByCategory(String category) {
-        return  questionRepository.findByCategory(category);
-    }
 
     public Question addQuestion(Question question){
         return questionRepository.save(question);

@@ -24,15 +24,10 @@ public class QuestionController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @GetMapping()
-    public ResponseEntity<List<QuestionDTO>> getAllQuestions(){
-        return ResponseEntity.ok(questionMapper.toListDto(questionService.getAllQuestions()));
+    public ResponseEntity<List<QuestionDTO>> getAllQuestions(@RequestParam(required = false) String category){
+        return ResponseEntity.ok(questionMapper.toListDto(questionService.getAllQuestions(category)));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    @GetMapping("/{category}")
-    public ResponseEntity<List<QuestionDTO>>  getQuestionsCategory(@PathVariable String category){
-        return ResponseEntity.ok(questionMapper.toListDto(questionService.getQuestionsByCategory(category)));
-    }
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping()
     public ResponseEntity<QuestionDTO> addQuestion(@RequestBody QuestionDTO questionDTO){
@@ -65,7 +60,7 @@ public class QuestionController {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<QuestionDTO> getQuestionById(@PathVariable Long id){
         return ResponseEntity.ok(questionMapper.toDto(questionService.getQuestionById(id)));
     }
