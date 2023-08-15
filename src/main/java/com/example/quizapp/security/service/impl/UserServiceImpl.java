@@ -1,7 +1,7 @@
-package com.example.quizapp.service.impl;
+package com.example.quizapp.security.service.impl;
 
 import com.example.quizapp.repository.UserRepository;
-import com.example.quizapp.service.UserService;
+import com.example.quizapp.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

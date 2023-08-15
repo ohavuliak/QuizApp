@@ -1,14 +1,16 @@
-package com.example.quizapp.dao.response;
+package com.example.quizapp.security.dao.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtAuthenticationResponse {
-    private String token;
+public class SigninRequest {
+    private String email;
+    private String password;
 }

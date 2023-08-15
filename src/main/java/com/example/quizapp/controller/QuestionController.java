@@ -59,7 +59,7 @@ public class QuestionController {
                 .map(questionMapper::toDto)));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    //@PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @GetMapping("/{id}")
     public ResponseEntity<QuestionDTO> getQuestionById(@PathVariable Long id){
         return ResponseEntity.ok(questionMapper.toDto(questionService.getQuestionById(id)));

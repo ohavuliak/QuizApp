@@ -1,4 +1,4 @@
-package com.example.quizapp.service;
+package com.example.quizapp.security.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 

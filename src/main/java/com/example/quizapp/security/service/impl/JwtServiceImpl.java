@@ -1,6 +1,6 @@
-package com.example.quizapp.service.impl;
+package com.example.quizapp.security.service.impl;
 
-import com.example.quizapp.service.JwtService;
+import com.example.quizapp.security.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -61,7 +61,8 @@ public class JwtServiceImpl implements JwtService {
                 .getBody();
     }
 
-    private Key getSigningKey() {
+
+    public Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(jwtSigningKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }

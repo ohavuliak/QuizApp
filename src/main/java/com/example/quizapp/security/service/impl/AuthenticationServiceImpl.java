@@ -1,13 +1,13 @@
-package com.example.quizapp.service.impl;
+package com.example.quizapp.security.service.impl;
 
-import com.example.quizapp.dao.request.SignUpRequest;
-import com.example.quizapp.dao.request.SigninRequest;
-import com.example.quizapp.dao.response.JwtAuthenticationResponse;
-import com.example.quizapp.model.Role;
-import com.example.quizapp.model.User;
+import com.example.quizapp.security.dao.request.SignUpRequest;
+import com.example.quizapp.security.dao.request.SigninRequest;
+import com.example.quizapp.security.dao.response.JwtAuthenticationResponse;
+import com.example.quizapp.security.model.Role;
+import com.example.quizapp.security.model.User;
 import com.example.quizapp.repository.UserRepository;
-import com.example.quizapp.service.AuthenticationService;
-import com.example.quizapp.service.JwtService;
+import com.example.quizapp.security.service.AuthenticationService;
+import com.example.quizapp.security.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
