@@ -2,13 +2,12 @@ package com.example.quizapp.serviceTests;
 
 import com.example.quizapp.dao.request.QuizRequest;
 import com.example.quizapp.mapper.QuestionMapper;
-import com.example.quizapp.mapper.QuizMapper;
 import com.example.quizapp.model.Question;
 import com.example.quizapp.model.QuestionWrapper;
 import com.example.quizapp.model.Quiz;
 import com.example.quizapp.repository.QuestionRepository;
 import com.example.quizapp.repository.QuizRepository;
-import com.example.quizapp.service.QuizService;
+import com.example.quizapp.service.impl.QuizServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,7 +32,7 @@ public class QuizServiceTest {
     @Mock
     QuestionRepository questionRepository;
     @InjectMocks
-    QuizService quizService;
+    QuizServiceImpl quizService;
     @Mock
     QuestionMapper questionMapper;
 
@@ -49,7 +48,7 @@ public class QuizServiceTest {
 
         quiz = new Quiz();
         quiz.setTitle(quizRequest.getTitle());
-        quiz.setQuestions(questionRepository.findRandomQuestionsByCategory(quizRequest.getCategory(), quizRequest.getNumQ()));
+        quiz.setQuestions(questionRepository.findRandomQuestionsByCategoryAndDifficultylevel(quizRequest.getCategory(), quizRequest.getNumQ(), quizRequest.getDifficultylevel()));
     }
 
 

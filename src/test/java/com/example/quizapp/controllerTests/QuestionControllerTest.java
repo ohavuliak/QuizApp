@@ -37,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(QuestionController.class)
 public class QuestionControllerTest {
+
     @MockBean
     QuestionService questionService;
     @Autowired
@@ -79,7 +80,6 @@ public class QuestionControllerTest {
 
         questionList.add(question);
 
-        System.out.println(questionMapper.toDto(question));
         final String jwtSigningKey = "UoUadBpef4zpK5WhPVnitMIhqYbQNasAzPcTX5hMU85m/MRivALw4quXIV7JRDQh";
         MockitoAnnotations.openMocks(this);
         when(userDetails.getUsername()).thenReturn("testUser");

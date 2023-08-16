@@ -1,7 +1,7 @@
 package com.example.quizapp.service;
 
 
-import com.example.quizapp.dto.QuestionDTO;
+
 import com.example.quizapp.exception.MessageCode;
 import com.example.quizapp.exception.NotFoundException;
 
@@ -17,6 +17,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.example.quizapp.repository.specifications.QuestionSpecifications.hasSomeDifficultyLevelEasy;
+import static com.example.quizapp.repository.specifications.QuestionSpecifications.titleContains;
+import static org.springframework.data.jpa.domain.Specification.where;
+
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +32,9 @@ public class QuestionService {
 
 
     public List<Question> getAllQuestions(String category) {
-        return category==null? questionRepository.findAll(): questionRepository.findByCategory(category);
+        return category==null? questionRepository.findAll(where(hasSomeDifficultyLevelEasy("Hard"))
+                .and(titleContains("Python")))
+                : questionRepository.findByCategory(category);
     }
 
 

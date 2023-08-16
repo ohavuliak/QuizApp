@@ -1,4 +1,4 @@
-package com.example.quizapp.service;
+package com.example.quizapp.service.impl;
 
 import com.example.quizapp.dao.request.QuizRequest;
 import com.example.quizapp.exception.MessageCode;
@@ -9,23 +9,27 @@ import com.example.quizapp.model.QuestionWrapper;
 import com.example.quizapp.model.Quiz;
 import com.example.quizapp.repository.QuestionRepository;
 import com.example.quizapp.repository.QuizRepository;
+import com.example.quizapp.service.QuizService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Primary;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.example.quizapp.repository.specifications.QuizSpecifications.*;
+import static org.springframework.data.jpa.domain.Specification.where;
+
 @Service
 @RequiredArgsConstructor
-@Primary
-public class QuizServicePrimary implements QuizService{
-
+@Qualifier("withSpecifications")
+public class QuizServiceSpImpl implements QuizService {
     private final QuizRepository quizRepository;
     private final QuestionRepository questionRepository;
     private final QuestionMapper questionMapper;
     @Override
     public String createQuiz(QuizRequest request) {
         List<Question> questions = questionRepository
-                .findRandomQuestionsByCategory(request.getCategory(), request.getNumQ());
+                .findRandomQuestionsByCategoryAndDifficultylevel(request.getCategory(), request.getNumQ(), request.getDifficultylevel());
 
         Quiz quiz = new Quiz();
         quiz.setTitle(request.getTitle());
@@ -43,6 +47,6 @@ public class QuizServicePrimary implements QuizService{
     }
     @Override
     public List<Quiz> getAllQuizzes() {
-        return quizRepository.findAll();
+        return quizRepository.findAll(where(hasAtLeastNumberOfQuestions(3).and(titleContains("Java"))));
     }
 }

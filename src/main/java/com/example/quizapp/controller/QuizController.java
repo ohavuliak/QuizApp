@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/api/v1/resource/quiz")
 @RequiredArgsConstructor
 public class QuizController {
-    //@Qualifier("secondary")
+    @Qualifier("withSpecifications")
     @Autowired
     QuizService quizService;
     private final QuizMapper quizMapper;
