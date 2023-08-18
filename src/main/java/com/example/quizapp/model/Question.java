@@ -16,6 +16,7 @@ public class Question {
     private String option3;
     private String option4;
     private String rightAnswer;
-    private String difficultylevel;
+    @Enumerated(EnumType.STRING)
+    private DifficultyLevel difficultylevel;
     private String category;
 }

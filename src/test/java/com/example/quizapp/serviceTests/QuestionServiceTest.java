@@ -1,6 +1,7 @@
 package com.example.quizapp.serviceTests;
 import com.example.quizapp.exception.NotFoundException;
 import com.example.quizapp.mapper.QuestionMapper;
+import com.example.quizapp.model.DifficultyLevel;
 import com.example.quizapp.model.Question;
 import com.example.quizapp.repository.QuestionRepository;
 import com.example.quizapp.repository.QuizRepository;
@@ -44,7 +45,7 @@ public class QuestionServiceTest {
         question.setId(1L);
         question.setQuestionTitle("Test Question Title");
         question.setCategory("Test Category");
-        question.setDifficultylevel("Test Difficulty Level");
+        question.setDifficultylevel(DifficultyLevel.EASY);
         question.setOption1("Test Option 1");
         question.setOption2("Test Option 2");
         question.setOption3("Test Option 3");
@@ -102,7 +103,7 @@ public class QuestionServiceTest {
         newQuestion.setId(question.getId());
         newQuestion.setQuestionTitle("Test_2 Question Title");
         newQuestion.setCategory("Test_2 Category");
-        newQuestion.setDifficultylevel("Test_2 Difficulty Level");
+        newQuestion.setDifficultylevel(DifficultyLevel.EASY);
         newQuestion.setOption1("Test_2 Option 1");
         newQuestion.setOption2("Test_2 Option 2");
         newQuestion.setOption3("Test_2 Option 3");

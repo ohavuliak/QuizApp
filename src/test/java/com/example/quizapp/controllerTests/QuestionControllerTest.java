@@ -1,6 +1,7 @@
 package com.example.quizapp.controllerTests;
 
 import com.example.quizapp.controller.QuestionController;
+import com.example.quizapp.model.DifficultyLevel;
 import com.example.quizapp.security.dao.response.JwtAuthenticationResponse;
 import com.example.quizapp.dto.QuestionDTO;
 import com.example.quizapp.mapper.PageMapper;
@@ -71,7 +72,7 @@ public class QuestionControllerTest {
         question.setId(1L);
         question.setQuestionTitle("Test Question Title");
         question.setCategory("Test Category");
-        question.setDifficultylevel("Test Difficulty Level");
+        question.setDifficultylevel(DifficultyLevel.EASY);
         question.setOption1("Test Option 1");
         question.setOption2("Test Option 2");
         question.setOption3("Test Option 3");
@@ -79,6 +80,9 @@ public class QuestionControllerTest {
         question.setRightAnswer("Test Option 3");
 
         questionList.add(question);
+        questionDTO = questionMapper.toDto(question);
+
+        questionDTOList = questionMapper.toListDto(questionList);
 
         final String jwtSigningKey = "UoUadBpef4zpK5WhPVnitMIhqYbQNasAzPcTX5hMU85m/MRivALw4quXIV7JRDQh";
         MockitoAnnotations.openMocks(this);
@@ -96,25 +100,26 @@ public class QuestionControllerTest {
     @DisplayName("Test. GET question by ID")
     public void getQuestionById() throws Exception {
         String generatedToken = jwtService.generateToken(userDetails);
+
         when(questionService.getQuestionById(question.getId())).thenReturn(question);
-        QuestionDTO questionDTO2 = this.questionMapper.toDto(question);
-        System.out.println("DTO2 : " + questionDTO2);
         when(questionMapper.toDto(question)).thenReturn(questionDTO);
 
-        JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse(generatedToken);
-        MockHttpServletResponse response =
-                mockMvc.perform(get("/api/v1/resource/question/{id}", 1)
-                                .header("Authorization", "Bearer "+ jwtAuthenticationResponse.getToken())
-                                .accept(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isOk())
-                        .andReturn()
-                        .getResponse();
-        assertEquals(objectMapper.writeValueAsString(questionDTO), response.getContentAsString());
-        System.out.println("TEST GET BY ID : \n");
-        System.out.println(objectMapper.writeValueAsString(questionDTO));
-        System.out.println(response.getContentAsString());
+        MockHttpServletResponse response = mockMvc.perform(get("/api/v1/resource/question/{id}", 1)
+                        .header("Authorization", "Bearer " + generatedToken)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
 
+        // Convert the response content to a QuestionDTO using objectMapper
+        QuestionDTO responseQuestionDTO = objectMapper.readValue(response.getContentAsString(), QuestionDTO.class);
+
+        // Assert
+        assertEquals(questionDTO, responseQuestionDTO);
+        System.out.println("Expected JSON: " + objectMapper.writeValueAsString(questionDTO));
+        System.out.println("Actual JSON: " + response.getContentAsString());
     }
+
 
     @WithMockUser("testUser")
     @DisplayName("Test. GET all questions")
@@ -123,7 +128,9 @@ public class QuestionControllerTest {
         String generatedToken = jwtService.generateToken(userDetails);
 
         when(questionService.getAllQuestions(null)).thenReturn(questionList);
+        questionList = questionService.getAllQuestions(null);
         when(questionMapper.toListDto(questionList)).thenReturn(questionDTOList);
+        questionDTOList = questionMapper.toListDto(questionList);
 
         JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse(generatedToken);
         MockHttpServletResponse response =

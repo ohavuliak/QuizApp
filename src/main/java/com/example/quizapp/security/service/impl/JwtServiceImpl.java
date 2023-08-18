@@ -6,7 +6,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +19,12 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@Slf4j
 public class JwtServiceImpl implements JwtService {
     @Value("${token.signing.key}")
     private String jwtSigningKey;
+    private boolean shouldCheckTokenValidity = false;
+
     @Override
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -42,10 +47,21 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
+        long validityOfToken = 1000*60*24;
+        Date expirationDate = new Date(System.currentTimeMillis() + validityOfToken);
+        String token = Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
+
+        log.info("Token generated for user '{}' is valid for {} milliseconds", userDetails.getUsername(), validityOfToken);
+
+        long expirationTimeMillis = expirationDate.getTime();
+        long currentTimeMillis = System.currentTimeMillis();
+        if (expirationTimeMillis <= currentTimeMillis) {
+            shouldCheckTokenValidity = true;
+        }
+        return token;
     }
 
     private boolean isTokenExpired(String token) {
@@ -65,5 +81,19 @@ public class JwtServiceImpl implements JwtService {
     public Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(jwtSigningKey);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    @Scheduled(fixedDelay = 24*60*1000)
+    public void checkTokenValidity(){
+        log.warn("Token for the currently logged-in user is no longer valid");
+        log.info("Token validity check completed.");
+        shouldCheckTokenValidity = false;
+    }
+
+    @Scheduled(fixedDelay = 60*1000)
+    public void conditionalTokenValidityCheck() {
+        if (shouldCheckTokenValidity) {
+            checkTokenValidity();
+        }
     }
 }

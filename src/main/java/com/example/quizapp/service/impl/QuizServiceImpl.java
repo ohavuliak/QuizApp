@@ -4,6 +4,7 @@ import com.example.quizapp.dao.request.QuizRequest;
 import com.example.quizapp.exception.MessageCode;
 import com.example.quizapp.exception.NotFoundException;
 import com.example.quizapp.mapper.QuestionMapper;
+import com.example.quizapp.mapper.QuizMapper;
 import com.example.quizapp.model.Question;
 import com.example.quizapp.model.QuestionWrapper;
 import com.example.quizapp.model.Quiz;
@@ -25,6 +26,7 @@ public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
     private final QuestionRepository questionRepository;
     private final QuestionMapper questionMapper;
+    private final QuizMapper quizMapper;
     @Override
     public String createQuiz(QuizRequest request) {
         List<Question> questions = questionRepository
@@ -48,4 +50,19 @@ public class QuizServiceImpl implements QuizService {
     public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
+
+    @Override
+    public void deleteQuiz(Long id) {
+        quizRepository.deleteById(id);
+    }
+
+    @Override
+    public String updateQuiz(Quiz updatedQuiz, Long id) {
+        Quiz existingQuiz = quizRepository.findById(id).orElseThrow( () -> new NotFoundException(MessageCode.NOT_FOUND_QUIZ));
+        quizMapper.updateEntity(existingQuiz, updatedQuiz);
+        quizRepository.save(existingQuiz);
+        return "Quiz was successfully updated";
+    }
+
+
 }

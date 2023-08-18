@@ -10,4 +10,6 @@ public interface QuizService {
     String createQuiz(QuizRequest request) ;
     List<QuestionWrapper> getQuizQuestions(Long id) ;
     List<Quiz> getAllQuizzes() ;
+    void deleteQuiz(Long id);
+    String updateQuiz(Quiz updatedQuiz, Long id);
 }

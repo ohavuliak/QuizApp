@@ -5,7 +5,7 @@ import com.example.quizapp.model.Question_;
 import org.springframework.data.jpa.domain.Specification;
 
 public class QuestionSpecifications {
-    public static Specification<Question> hasSomeDifficultyLevelEasy(String difficultyLevel){
+    public static Specification<Question> hasSomeDifficultyLevel(String difficultyLevel){
         return ((root, query, criteriaBuilder) ->
                 criteriaBuilder.equal(root.get(Question_.DIFFICULTYLEVEL), difficultyLevel));
     }
@@ -14,6 +14,4 @@ public class QuestionSpecifications {
         return (root, query, criteriaBuilder) ->
                 criteriaBuilder.like(criteriaBuilder.lower(root.get(Question_.QUESTION_TITLE)), "%" + title.toLowerCase() + "%");
     }
-
-
 }
