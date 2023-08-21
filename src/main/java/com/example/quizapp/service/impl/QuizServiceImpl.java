@@ -28,7 +28,7 @@ public class QuizServiceImpl implements QuizService {
     private final QuestionMapper questionMapper;
     private final QuizMapper quizMapper;
     @Override
-    public String createQuiz(QuizRequest request) {
+    public Quiz createQuiz(QuizRequest request) {
         List<Question> questions = questionRepository
                 .findRandomQuestionsByCategoryAndDifficultylevel(request.getCategory(), request.getNumQ(), request.getDifficultylevel());
 
@@ -37,7 +37,7 @@ public class QuizServiceImpl implements QuizService {
         quiz.setQuestions(questions);
         quizRepository.save(quiz);
 
-        return "Quiz was successfully created.";
+        return quiz;
     }
 
     @Override
