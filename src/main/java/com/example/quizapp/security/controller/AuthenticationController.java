@@ -1,10 +1,10 @@
-package com.example.quizapp.controller;
+package com.example.quizapp.security.controller;
 
 
-import com.example.quizapp.dao.request.SignUpRequest;
-import com.example.quizapp.dao.request.SigninRequest;
-import com.example.quizapp.dao.response.JwtAuthenticationResponse;
-import com.example.quizapp.service.AuthenticationService;
+import com.example.quizapp.security.dao.request.SignUpRequest;
+import com.example.quizapp.security.dao.request.SigninRequest;
+import com.example.quizapp.security.dao.response.JwtAuthenticationResponse;
+import com.example.quizapp.security.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

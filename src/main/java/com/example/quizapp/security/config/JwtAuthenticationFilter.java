@@ -1,7 +1,7 @@
-package com.example.quizapp.config;
+package com.example.quizapp.security.config;
 
-import com.example.quizapp.service.JwtService;
-import com.example.quizapp.service.UserService;
+import com.example.quizapp.security.service.JwtService;
+import com.example.quizapp.security.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

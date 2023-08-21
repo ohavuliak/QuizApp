@@ -1,5 +1,6 @@
 package com.example.quizapp.dto;
 
+import com.example.quizapp.model.DifficultyLevel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Id;
 import lombok.Data;
@@ -17,6 +18,6 @@ public class QuestionDTO {
     private String option3;
     private String option4;
     private String rightAnswer;
-    private String difficultylevel;
+    private DifficultyLevel difficultylevel;
     private String category;
 }

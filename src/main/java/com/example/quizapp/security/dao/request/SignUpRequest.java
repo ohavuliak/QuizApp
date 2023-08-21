@@ -1,4 +1,4 @@
-package com.example.quizapp.dao.request;
+package com.example.quizapp.security.dao.request;
 
 
 import lombok.AllArgsConstructor;

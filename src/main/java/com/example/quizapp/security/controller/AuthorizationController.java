@@ -1,4 +1,4 @@
-package com.example.quizapp.controller;
+package com.example.quizapp.security.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
