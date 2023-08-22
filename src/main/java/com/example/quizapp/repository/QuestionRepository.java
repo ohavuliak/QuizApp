@@ -18,6 +18,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long>, JpaSp
     List<Question> findByCategory(String category);
     @Query(value = "SELECT * from question q WHERE q.category=:category AND q.difficultylevel=:difficultylevel ORDER BY Random() LIMIT :numQ", nativeQuery = true)
     List<Question> findRandomQuestionsByCategoryAndDifficultylevel(@Param("category") String category, @Param("numQ") Integer numQ, @Param("difficultylevel") String difficultylevel);
+
     Page<Question> findByCategory(String category, Pageable pageable);
 
 }

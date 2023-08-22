@@ -1,17 +1,32 @@
 package com.example.quizapp.security.service.impl;
 
+import com.example.quizapp.model.Quiz;
+import com.example.quizapp.repository.QuizRepository;
 import com.example.quizapp.repository.UserRepository;
+import com.example.quizapp.security.mapper.UserMapper;
+import com.example.quizapp.security.model.User;
+import com.example.quizapp.security.model.UserDTO;
 import com.example.quizapp.security.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
+
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final QuizRepository quizRepository;
+    private final UserMapper userMapper;
     @Override
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
@@ -21,5 +36,32 @@ public class UserServiceImpl implements UserService {
                         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             }
         };
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll(Sort.by("email"));
+    }
+
+    @Override
+    public User getAllAdmins() {
+        return userRepository.findAllAdmins();
+    }
+
+    @Override
+    public Map<UserDTO, List<Quiz>> getQuizForUser(Long id, String title) {
+        HashMap<UserDTO, List<Quiz>> map = new HashMap<>();
+        map.put(userMapper.toUserDTO(userRepository.findUserById(id)) , quizRepository.findByTitle(title) );
+        return map;
+    }
+
+    @Override
+    public Page<User> getUsersPageable(Pageable pageable) {
+        return userRepository.findAllUsersWithPagination(pageable);
+    }
+
+    @Override
+    public List<User> getSortedByNameList() {
+        return userRepository.getSortedUsersByName();
     }
 }
