@@ -67,20 +67,6 @@ public class QuestionService {
         return updateMessage;
     }
 
-    public Boolean checkAnswer(Long id, Integer option) {
-        Question question = questionRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(MessageCode.NOT_FOUND_QUESTION));
-
-        List<String> options = List.of(question.getOption1(), question.getOption2(),
-                question.getOption3(), question.getOption4());
-
-        if (option < 1 || option > options.size())
-            throw new NotFoundException(MessageCode.NOT_FOUND_OPTION);
-
-        String userOption = options.get(option-1);
-        return userOption.equals(question.getRightAnswer());
-    }
-
     public Page<Question> getCategoryPageable(String category, Pageable pageable) {
         log.debug("Inside getCategoryPageable()");
         return category == null ? questionRepository.findAll(pageable) : questionRepository.findByCategory(category, pageable);

@@ -1,7 +1,7 @@
 package com.example.quizapp.security.config;
 
 
-import com.example.quizapp.security.service.UserService;
+import com.example.quizapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

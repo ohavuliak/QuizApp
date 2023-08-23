@@ -1,15 +1,14 @@
 package com.example.quizapp.controller;
 
+import com.example.quizapp.dao.request.AnswerRequest;
 import com.example.quizapp.dto.PageDTO;
 import com.example.quizapp.dto.QuestionDTO;
 import com.example.quizapp.mapper.PageMapper;
 import com.example.quizapp.mapper.QuestionMapper;
+import com.example.quizapp.model.Answer;
+import com.example.quizapp.service.AnswerService;
 import com.example.quizapp.service.QuestionService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +31,7 @@ public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
     private final PageMapper pageMapper;
+    private final AnswerService answerService;
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @Operation(summary = "Fetch list of questions")
@@ -67,14 +67,6 @@ public class QuestionController {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    @GetMapping("/{id}/{option}")
-    @Operation(summary = "Check answer")
-    public ResponseEntity<Boolean> checkAnswer(@PathVariable Long id, @PathVariable Integer option) {
-        log.info("Checking answer for question with ID: {}", id);
-        return ResponseEntity.ok(questionService.checkAnswer(id, option));
-    }
-
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @Operation(summary = "Fetch pages of questions")
     @GetMapping(value = "/pageable")
     public ResponseEntity<PageDTO<QuestionDTO>> getCategoryPageable(
@@ -90,5 +82,26 @@ public class QuestionController {
     public ResponseEntity<QuestionDTO> getQuestionById(@PathVariable Long id) {
         log.info("Fetching question with ID: {}", id);
         return ResponseEntity.ok(questionMapper.toDto(questionService.getQuestionById(id)));
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PostMapping("/checkAnswer")
+    @Operation(summary = "Check answer")
+    public ResponseEntity<String> answerChecker(@RequestBody AnswerRequest answer){
+        return ResponseEntity.ok(answerService.answerChecker(answer));
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @GetMapping("/findAnswer/{id}")
+    @Operation(summary = "Find answer by id")
+    public ResponseEntity<Answer> findAnswer(@PathVariable Long id){
+        return ResponseEntity.ok(answerService.findAnswerById(id));
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("/deleteAnswer/{id}")
+    @Operation(summary = "Delete answer by id")
+    public ResponseEntity<String> deleteAnswer(@PathVariable Long id){
+        return ResponseEntity.ok(answerService.deleteAnswerById(id));
     }
 }

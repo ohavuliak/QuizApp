@@ -1,12 +1,12 @@
-package com.example.quizapp.security.service.impl;
+package com.example.quizapp.service.impl;
 
+import com.example.quizapp.mapper.UserMapper;
 import com.example.quizapp.model.Quiz;
 import com.example.quizapp.repository.QuizRepository;
 import com.example.quizapp.repository.UserRepository;
-import com.example.quizapp.security.mapper.UserMapper;
-import com.example.quizapp.security.model.User;
-import com.example.quizapp.security.model.UserDTO;
-import com.example.quizapp.security.service.UserService;
+import com.example.quizapp.model.User;
+import com.example.quizapp.dto.UserDTO;
+import com.example.quizapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;

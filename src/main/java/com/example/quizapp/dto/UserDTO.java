@@ -1,5 +1,6 @@
-package com.example.quizapp.security.model;
+package com.example.quizapp.dto;
 
+import com.example.quizapp.model.Role;
 import lombok.Data;
 
 @Data

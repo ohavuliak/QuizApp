@@ -1,4 +1,4 @@
-package com.example.quizapp.security.model;
+package com.example.quizapp.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

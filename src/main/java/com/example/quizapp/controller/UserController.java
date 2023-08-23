@@ -1,11 +1,12 @@
-package com.example.quizapp.security.controller;
+package com.example.quizapp.controller;
 
 import com.example.quizapp.dto.PageDTO;
+import com.example.quizapp.dto.UserDTO;
 import com.example.quizapp.mapper.PageMapper;
+import com.example.quizapp.mapper.UserMapper;
 import com.example.quizapp.model.Quiz;
-import com.example.quizapp.security.mapper.UserMapper;
-import com.example.quizapp.security.model.UserDTO;
-import com.example.quizapp.security.service.UserService;
+import com.example.quizapp.service.AnswerService;
+import com.example.quizapp.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,6 +31,7 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final PageMapper pageMapper;
+    private final AnswerService answerService;
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @Operation(summary = "Fetch list of users")
@@ -64,5 +66,12 @@ public class UserController {
     @GetMapping("/sorted")
     public ResponseEntity<List<UserDTO>> getSortedUsers(){
         return ResponseEntity.ok(userMapper.toListDTO(userService.getSortedByNameList()));
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @Operation(summary = "Count answers of the user")
+    @GetMapping("/countAnswers")
+    public ResponseEntity<String> countCorrectAnswers(@RequestParam String username){
+        return ResponseEntity.ok(answerService.countAnswersOfUser(username));
     }
 }

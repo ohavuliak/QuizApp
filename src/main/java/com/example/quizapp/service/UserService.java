@@ -1,12 +1,10 @@
-package com.example.quizapp.security.service;
+package com.example.quizapp.service;
 
-import com.example.quizapp.dto.QuizDTO;
 import com.example.quizapp.model.Quiz;
-import com.example.quizapp.security.model.User;
-import com.example.quizapp.security.model.UserDTO;
+import com.example.quizapp.model.User;
+import com.example.quizapp.dto.UserDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Pageable;
 
 
