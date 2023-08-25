@@ -28,7 +28,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         log.info("User signup initiated for email: {}", request.getEmail());
         var user = User.builder().firstName(request.getFirstName()).lastName(request.getLastName())
                 .email(request.getEmail()).password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER).build();
+                .role(Role.ADMIN).build();
         userRepository.save(user);
         log.info("User with email '{}' successfully signed up", user.getEmail());
         var jwt = jwtService.generateToken(user);

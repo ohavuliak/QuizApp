@@ -1,7 +1,10 @@
 package com.example.quizapp.controller;
 
+import com.example.quizapp.dto.FeedbackDTO;
 import com.example.quizapp.dto.QuizDTO;
+import com.example.quizapp.dto.UserAnswerDTO;
 import com.example.quizapp.mapper.QuizMapper;
+import com.example.quizapp.model.Feedback;
 import com.example.quizapp.model.QuestionWrapper;
 import com.example.quizapp.dao.request.QuizRequest;
 import com.example.quizapp.service.QuizService;
@@ -69,4 +72,12 @@ public class QuizController {
         log.info("Updating question with ID: {}", id);
         return ResponseEntity.ok(quizService.updateQuiz(quizMapper.toEntity(quizDTO), id));
     }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @Operation(summary = "Submit quiz")
+    @PostMapping("/{id}/submit")
+    public ResponseEntity<String> submitQuizAnswer(@PathVariable Long id, @RequestBody List<UserAnswerDTO> userAnswers){
+        return ResponseEntity.ok(quizService.submitQuizAnswers(id, userAnswers));
+    }
+
 }
