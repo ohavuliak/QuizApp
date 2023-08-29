@@ -16,6 +16,7 @@ import com.example.quizapp.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -95,5 +96,16 @@ public class QuizServiceSpImpl implements QuizService {
         } else {
             throw new NotFoundException(MessageCode.NOT_FOUND_QUIZ);
         }
+    }
+
+    @Override
+    @Transactional
+    public Quiz createQuizWithQuestions(Quiz quiz) {
+        quizRepository.save(quiz);
+        questionRepository.saveAll(quiz.getQuestions());
+        if (quiz.getQuestions() == null || quiz.getQuestions().isEmpty()) {
+            throw new IllegalArgumentException("The quiz must have at least one question.");
+        }
+        return quiz;
     }
 }

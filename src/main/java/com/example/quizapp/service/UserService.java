@@ -1,5 +1,7 @@
 package com.example.quizapp.service;
 
+import com.example.quizapp.dao.request.AvatarRequest;
+import com.example.quizapp.model.Avatar;
 import com.example.quizapp.model.Quiz;
 import com.example.quizapp.model.User;
 import com.example.quizapp.dto.UserDTO;
@@ -23,4 +25,6 @@ public interface UserService {
     Page<User> getUsersPageable(Pageable pageable);
 
     List<User> getSortedByNameList();
+
+    List<User> getAllUsersWithAvatar();
 }

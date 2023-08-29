@@ -1,7 +1,10 @@
 package com.example.quizapp.service.impl;
 
+import com.example.quizapp.dao.request.AvatarRequest;
 import com.example.quizapp.mapper.UserMapper;
+import com.example.quizapp.model.Avatar;
 import com.example.quizapp.model.Quiz;
+import com.example.quizapp.repository.AvatarRepository;
 import com.example.quizapp.repository.QuizRepository;
 import com.example.quizapp.repository.UserRepository;
 import com.example.quizapp.model.User;
@@ -26,6 +29,7 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final QuizRepository quizRepository;
+    private final AvatarRepository avatarRepository;
     private final UserMapper userMapper;
     @Override
     public UserDetailsService userDetailsService() {
@@ -64,4 +68,10 @@ public class UserServiceImpl implements UserService {
     public List<User> getSortedByNameList() {
         return userRepository.getSortedUsersByName();
     }
+
+    @Override
+    public List<User> getAllUsersWithAvatar() {
+        return userRepository.findAllUsersWithAvatar();
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.example.quizapp.dto;
 
+import com.example.quizapp.model.Avatar;
 import com.example.quizapp.model.Role;
 import lombok.Data;
 
@@ -10,4 +11,5 @@ public class UserDTO {
     private String lastName;
     private String email;
     private Role role;
+    private Avatar avatar;
 }

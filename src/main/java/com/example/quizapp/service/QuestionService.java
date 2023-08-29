@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,12 +46,11 @@ public class QuestionService {
                 : questionRepository.findByCategory(category);
     }
 
-
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, timeout = 30, rollbackFor = Exception.class)
     public Question addQuestion(Question question){
         log.debug("Inside addQuestion()");
         return questionRepository.save(question);
     }
-
     public void deleteQuestion(Long id) {
         List<Quiz> quizzes = quizRepository.findByQuestionsId(id);
         log.debug("Inside deleteQuestion()");
@@ -58,6 +60,7 @@ public class QuestionService {
         questionRepository.deleteById(id);
     }
 
+    @Transactional
     public String updateQuestion(Question question, Long id) {
         log.debug("Inside updateQuestion()");
         Question existingQuestion = questionRepository.findById(id)
@@ -67,11 +70,12 @@ public class QuestionService {
         return updateMessage;
     }
 
+    @Transactional(readOnly = true)
     public Page<Question> getCategoryPageable(String category, Pageable pageable) {
         log.debug("Inside getCategoryPageable()");
         return category == null ? questionRepository.findAll(pageable) : questionRepository.findByCategory(category, pageable);
     }
-
+    @Transactional(readOnly = true)
     public Question getQuestionById(Long id) {
         log.debug("Inside getQuestionById()");
         return questionRepository.findById(id)

@@ -72,4 +72,9 @@ public class QuizServiceImpl implements QuizService {
         return null;
     }
 
+    @Override
+    public Quiz createQuizWithQuestions(Quiz quiz) {
+        return null;
+    }
+
 }

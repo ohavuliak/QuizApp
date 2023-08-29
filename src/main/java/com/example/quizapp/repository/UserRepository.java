@@ -32,4 +32,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT * from _user u ORDER BY u.first_name", nativeQuery = true)
     List<User> getSortedUsersByName();
+
+    @Query("SELECT u FROM User u JOIN FETCH u.avatar")
+    List<User> findAllUsersWithAvatar();
 }

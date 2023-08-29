@@ -1,10 +1,13 @@
 package com.example.quizapp.controller;
 
+import com.example.quizapp.dao.request.AvatarRequest;
 import com.example.quizapp.dto.PageDTO;
 import com.example.quizapp.dto.UserDTO;
 import com.example.quizapp.mapper.PageMapper;
 import com.example.quizapp.mapper.UserMapper;
+import com.example.quizapp.model.Avatar;
 import com.example.quizapp.model.Quiz;
+import com.example.quizapp.model.User;
 import com.example.quizapp.service.AnswerService;
 import com.example.quizapp.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,10 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -68,10 +68,17 @@ public class UserController {
         return ResponseEntity.ok(userMapper.toListDTO(userService.getSortedByNameList()));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Count answers of the user")
     @GetMapping("/countAnswers")
     public ResponseEntity<String> countCorrectAnswers(@RequestParam String username){
         return ResponseEntity.ok(answerService.countAnswersOfUser(username));
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @Operation(summary = "Get Users with Avatar")
+    @GetMapping("/avatar")
+    public ResponseEntity<List<UserDTO>> getUserWithAvatar(){
+        return ResponseEntity.ok(userMapper.toListDTO(userService.getAllUsersWithAvatar()));
     }
 }

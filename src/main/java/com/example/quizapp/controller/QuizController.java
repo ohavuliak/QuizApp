@@ -1,10 +1,8 @@
 package com.example.quizapp.controller;
 
-import com.example.quizapp.dto.FeedbackDTO;
 import com.example.quizapp.dto.QuizDTO;
 import com.example.quizapp.dto.UserAnswerDTO;
 import com.example.quizapp.mapper.QuizMapper;
-import com.example.quizapp.model.Feedback;
 import com.example.quizapp.model.QuestionWrapper;
 import com.example.quizapp.dao.request.QuizRequest;
 import com.example.quizapp.service.QuizService;
@@ -15,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +33,7 @@ public class QuizController {
     private final QuizMapper quizMapper;
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @Operation(summary = "Add quiz")
+    @Operation(summary = "Add quiz with random questions")
     @PostMapping()
     public ResponseEntity<QuizDTO> createQuiz(@RequestBody QuizRequest request) {
         log.info("Adding a new quiz");
@@ -78,6 +75,13 @@ public class QuizController {
     @PostMapping("/{id}/submit")
     public ResponseEntity<String> submitQuizAnswer(@PathVariable Long id, @RequestBody List<UserAnswerDTO> userAnswers){
         return ResponseEntity.ok(quizService.submitQuizAnswers(id, userAnswers));
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "Create quiz with question")
+    @PostMapping("/add")
+    public ResponseEntity<QuizDTO> addQuizWithQuestions(@RequestBody QuizDTO quizDTO){
+        return ResponseEntity.ok(quizMapper.toDto(quizService.createQuizWithQuestions( quizMapper.toEntity(quizDTO))));
     }
 
 }
