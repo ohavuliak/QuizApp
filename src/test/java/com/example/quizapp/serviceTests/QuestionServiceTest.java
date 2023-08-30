@@ -123,28 +123,5 @@ public class QuestionServiceTest {
         questionService.deleteQuestion(question.getId());
         verify(questionRepository).deleteById(question.getId());
     }
-
-    @DisplayName("CheckAnswer method test")
-    @Test
-    public void checkAnswerTest(){
-        given(questionRepository.findById(question.getId())).willReturn(Optional.of(question));
-        boolean res = questionService.checkAnswer(question.getId(), 1);
-        assertTrue(res);
-    }
-    @DisplayName("CheckAnswer incorrect option test")
-    @Test
-    public void checkIncorrectAnswerTest(){
-        given(questionRepository.findById(question.getId())).willReturn(Optional.of(question));
-        boolean res = questionService.checkAnswer(question.getId(), 2);
-        assertFalse(res);
-    }
-    @DisplayName("CheckAnswer no exist option test")
-    @Test
-    public void checkNoExistOptionTest(){
-        given(questionRepository.findById(question.getId())).willReturn(Optional.of(question));
-        assertThrows(NotFoundException.class, ()->{
-            questionService.checkAnswer(question.getId(), anyInt());
-        });
-    }
 }
 

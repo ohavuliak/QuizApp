@@ -8,5 +8,5 @@ public class QuizRequest {
     private String category;
     private Integer numQ;
     private String title;
-    private DifficultyLevel difficultylevel;
+    private String difficultylevel;
 }

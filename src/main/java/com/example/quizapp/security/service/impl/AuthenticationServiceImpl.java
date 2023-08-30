@@ -3,8 +3,8 @@ package com.example.quizapp.security.service.impl;
 import com.example.quizapp.security.dao.request.SignUpRequest;
 import com.example.quizapp.security.dao.request.SigninRequest;
 import com.example.quizapp.security.dao.response.JwtAuthenticationResponse;
-import com.example.quizapp.security.model.Role;
-import com.example.quizapp.security.model.User;
+import com.example.quizapp.model.Role;
+import com.example.quizapp.model.User;
 import com.example.quizapp.repository.UserRepository;
 import com.example.quizapp.security.service.AuthenticationService;
 import com.example.quizapp.security.service.JwtService;
@@ -28,7 +28,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         log.info("User signup initiated for email: {}", request.getEmail());
         var user = User.builder().firstName(request.getFirstName()).lastName(request.getLastName())
                 .email(request.getEmail()).password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER).build();
+                .role(Role.ADMIN).build();
         userRepository.save(user);
         log.info("User with email '{}' successfully signed up", user.getEmail());
         var jwt = jwtService.generateToken(user);

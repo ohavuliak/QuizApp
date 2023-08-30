@@ -1,10 +1,13 @@
 package com.example.quizapp.service.impl;
 
 import com.example.quizapp.dao.request.QuizRequest;
+import com.example.quizapp.dto.FeedbackDTO;
+import com.example.quizapp.dto.UserAnswerDTO;
 import com.example.quizapp.exception.MessageCode;
 import com.example.quizapp.exception.NotFoundException;
 import com.example.quizapp.mapper.QuestionMapper;
 import com.example.quizapp.mapper.QuizMapper;
+import com.example.quizapp.model.Feedback;
 import com.example.quizapp.model.Question;
 import com.example.quizapp.model.QuestionWrapper;
 import com.example.quizapp.model.Quiz;
@@ -28,7 +31,7 @@ public class QuizServiceImpl implements QuizService {
     private final QuestionMapper questionMapper;
     private final QuizMapper quizMapper;
     @Override
-    public String createQuiz(QuizRequest request) {
+    public Quiz createQuiz(QuizRequest request) {
         List<Question> questions = questionRepository
                 .findRandomQuestionsByCategoryAndDifficultylevel(request.getCategory(), request.getNumQ(), request.getDifficultylevel());
 
@@ -37,7 +40,7 @@ public class QuizServiceImpl implements QuizService {
         quiz.setQuestions(questions);
         quizRepository.save(quiz);
 
-        return "Quiz was successfully created.";
+        return quiz;
     }
 
     @Override
@@ -64,5 +67,14 @@ public class QuizServiceImpl implements QuizService {
         return "Quiz was successfully updated";
     }
 
+    @Override
+    public String submitQuizAnswers(Long id, List<UserAnswerDTO> userAnswers) {
+        return null;
+    }
+
+    @Override
+    public Quiz createQuizWithQuestions(Quiz quiz) {
+        return null;
+    }
 
 }

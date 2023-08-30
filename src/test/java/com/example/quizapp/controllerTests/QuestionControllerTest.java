@@ -9,7 +9,7 @@ import com.example.quizapp.mapper.QuestionMapper;
 import com.example.quizapp.model.Question;
 import com.example.quizapp.security.service.JwtService;
 import com.example.quizapp.service.QuestionService;
-import com.example.quizapp.security.service.UserService;
+import com.example.quizapp.service.UserService;
 import com.example.quizapp.security.service.impl.JwtServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.io.Decoders;
